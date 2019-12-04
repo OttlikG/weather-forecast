@@ -3,6 +3,7 @@ import { createStore, applyMiddleware, combineReducers } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 
 import { routerReducer } from 'react-router-redux'
+import reducers from './reducers'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import { createLogger } from 'redux-logger'
@@ -15,7 +16,8 @@ if (process.env.NODE_ENV !== 'production') {
 
 const store = createStore(
 	combineReducers({
-		routing: routerReducer,
+		...reducers,
+		routing: routerReducer
 	}),
 	composeWithDevTools(applyMiddleware(...middleware))
 )
