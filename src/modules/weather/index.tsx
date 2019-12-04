@@ -1,7 +1,37 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { connect } from 'react-redux'
+import {
+	fetchCurrentWeather as a_fetchCurrentWeather,
+	fetchForecast as a_fetchForecast
+} from './action';
+import {
+	deriveCurrentWeather as s_deriveCurrentWeather,
+	deriveForecast as s_deriveForecast,
+	DeriveCurrentWeather,
+	DeriveForecast
+} from './selector'
 import "./style.css";
 
-function Weather() {
+declare interface WeatherProps {
+	currentWeather: DeriveCurrentWeather,
+	forecast: DeriveForecast[],
+	fetchCurrentWeather: Function,
+	fetchForecast: Function
+}
+
+function Weather(props: WeatherProps) {
+	const [city, setCity] = useState('Budapest')
+
+	useEffect(() => {
+		props.fetchCurrentWeather(city)
+		props.fetchForecast(city)
+	}, [city])
+
+	const {
+		currentWeather,
+		forecast
+	} = props
+
 	return (
 		<div className="weather-container">
 			<div className="search-bar-container">
@@ -21,7 +51,7 @@ function Weather() {
 					<div className="today">
 						<div className="city-wrapper">
 							<i className="fas fa-map-marker-alt" />
-							<div className="city">Budapest</div>
+							<div className="city">{currentWeather.location}</div>
 						</div>
 						<div className="current-weather">
 							<div className="weather-icon">
@@ -32,11 +62,11 @@ function Weather() {
 						<div className="weather-details">
 							<div className="wind-speed">
 								<div className="wind-speed-title">Wind speed</div>
-								<div className="wind-speed-value">10</div>
+								<div className="wind-speed-value">{currentWeather.windSpeed}</div>
 							</div>
 							<div className="wind-degree">
 								<div className="wind-degree-title">Wind degree</div>
-								<div className="wind-degree-value">30°</div>
+								<div className="wind-degree-value">{currentWeather.windDegree}°</div>
 							</div>
 						</div>
 					</div>
@@ -44,21 +74,21 @@ function Weather() {
 					 	<div className='forecast-carousel'>
 							<div className='carousel-content'>
 								<div className='carousel-row'>
-									{Array(15).fill(1).map((_, index) => (
-										<div className="forecast-carousel-hour" key={index}>
-											<div className="forecast-hour">11:00</div>
+									{forecast.slice(0, 15).map((forecastHour) => (
+										<div className="forecast-carousel-hour" key={forecastHour.displayHour}>
+											<div className="forecast-hour">{forecastHour.displayHour}</div>
 											<div className="forecast-icon">
 												<i className="fas fa-sun" />
 											</div>
 											<div className="forecast-bar">
 												<div className="forecast-bar-degree">
-													20°
+													{forecastHour.temperature}°
 												</div>
 											</div>
 											<div className="rain-container">
 												<div className="rain">
 													<i className="fas fa-cloud-rain" />
-													<span className="rain-percent">43%</span>
+													<span className="rain-percent">{forecastHour.windDegree}%</span>
 												</div>
 											</div>
 										</div>
@@ -73,4 +103,14 @@ function Weather() {
 	);
 }
 
-export default Weather
+function mapStateToProps(state: any) {
+	return {
+		currentWeather: s_deriveCurrentWeather(state),
+		forecast: s_deriveForecast(state)
+	}
+}
+
+export default connect(mapStateToProps, {
+	fetchCurrentWeather: a_fetchCurrentWeather,
+	fetchForecast: a_fetchForecast
+})(Weather)
