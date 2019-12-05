@@ -43,7 +43,7 @@ describe('weather selector', () => {
 
 			expect(result).toEqual({
 				location: 'Budapest',
-				celsius: 4.85,
+				celsius: 5,
 				windSpeed: 100,
 				windDegree: 43
 			})

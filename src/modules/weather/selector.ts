@@ -15,7 +15,7 @@ export const deriveCurrentWeather = createSelector(selectCurrentWeather, current
 	if (Object.keys(currentWeather).length === 0) return {}
 	return {
 		location: currentWeather.name,
-		celsius: convertToCelsius(currentWeather.main.temp),
+		celsius: Math.round(convertToCelsius(currentWeather.main.temp)),
 		windSpeed: currentWeather.wind.speed,
 		windDegree: currentWeather.wind.deg
 	}
