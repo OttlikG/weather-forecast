@@ -24,12 +24,17 @@ declare interface WeatherProps {
 }
 
 export function Weather(props: WeatherProps) {
+	const {
+		fetchCurrentWeather,
+		fetchForecast
+	} = props
+
 	const [city, setCity] = useState('Budapest')
 
 	useEffect(() => {
-		props.fetchCurrentWeather(city)
-		props.fetchForecast(city)
-	}, [city])
+		fetchCurrentWeather(city)
+		fetchForecast(city)
+	}, [city, fetchCurrentWeather, fetchForecast])
 
 	const {
 		currentWeather,
