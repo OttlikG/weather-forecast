@@ -4,6 +4,7 @@ import {
 } from './response-type'
 
 export type WeatherState = {
-	currentWeather: CurrentWeatherResponse
-	forecast: ForecastResponse
+	currentWeather: CurrentWeatherResponse,
+	forecast: ForecastResponse,
+	searchNotification: string
 }

@@ -1,14 +1,24 @@
-import { getType, createReducer } from 'typesafe-actions'
-import { WeatherState, CurrentWeatherAction, ForecastAction, CurrentWeatherResponse, ForecastResponse } from './types'
+import { getType, createReducer, action } from 'typesafe-actions'
+import {
+	WeatherState,
+	CurrentWeatherAction,
+	ForecastAction,
+	SearchNotificationAction,
+	CurrentWeatherResponse,
+	ForecastResponse
+} from './types'
 
 import {
 	addCurrentWeather,
-	addForecast
+	addForecast,
+	addSearchNotification,
+	clearNotification
 } from './action'
 
 const initialState = {
 	currentWeather: {} as CurrentWeatherResponse,
-	forecast: {} as ForecastResponse
+	forecast: {} as ForecastResponse,
+	searchNotification: ''
 }
 
 export default createReducer(initialState, {
@@ -22,6 +32,18 @@ export default createReducer(initialState, {
 		return {
 			...state,
 			forecast: action.payload
+		}
+	},
+	[getType(addSearchNotification)]: (state: WeatherState, action: SearchNotificationAction) => {
+		return {
+			...state,
+			searchNotification: action.payload
+		}
+	},
+	[getType(clearNotification)]: (state: WeatherState) => {
+		return {
+			...state,
+			searchNotification: ''
 		}
 	}
 })

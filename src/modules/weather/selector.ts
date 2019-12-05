@@ -48,3 +48,5 @@ export declare interface DeriveForecast {
 	temperature: number,
 	windDegree: number
 }
+
+export const getSearchNotification = (state: { weather: WeatherState }) => state.weather.searchNotification

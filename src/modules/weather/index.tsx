@@ -2,14 +2,17 @@ import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux'
 import {
 	fetchCurrentWeather as a_fetchCurrentWeather,
-	fetchForecast as a_fetchForecast
+	fetchForecast as a_fetchForecast,
+	clearNotification as a_clearNotification
 } from './action';
 import {
 	deriveCurrentWeather as s_deriveCurrentWeather,
 	deriveForecast as s_deriveForecast,
+	getSearchNotification as s_getSearchNotification,
 	DeriveCurrentWeather,
 	DeriveForecast
 } from './selector'
+import { WeatherState } from './types'
 
 import SearchBar from '../../component/search-bar/search-bar'
 import WeatherCard from '../../component/weather-card/weather-card'
@@ -19,14 +22,18 @@ import "./style.css";
 declare interface WeatherProps {
 	currentWeather: DeriveCurrentWeather,
 	forecast: DeriveForecast[],
+	searchNotification: string,
 	fetchCurrentWeather: Function,
-	fetchForecast: Function
+	fetchForecast: Function,
+	clearNotification: Function
 }
 
 export function Weather(props: WeatherProps) {
 	const {
 		fetchCurrentWeather,
-		fetchForecast
+		fetchForecast,
+		searchNotification,
+		clearNotification
 	} = props
 
 	const [city, setCity] = useState('Budapest')
@@ -43,7 +50,7 @@ export function Weather(props: WeatherProps) {
 
 	return (
 		<div className="weather-container">
-			<SearchBar onSearch={setCity} />
+			<SearchBar onSearch={setCity} searchNotification={searchNotification} clearNotification={clearNotification} />
 			<div className="forecast-container">
 				<div className="forecast">
 					<WeatherCard
@@ -85,14 +92,16 @@ export function Weather(props: WeatherProps) {
 	);
 }
 
-function mapStateToProps(state: any) {
+function mapStateToProps(state: { weather: WeatherState }) {
 	return {
 		currentWeather: s_deriveCurrentWeather(state),
-		forecast: s_deriveForecast(state)
+		forecast: s_deriveForecast(state),
+		searchNotification: s_getSearchNotification(state)
 	}
 }
 
 export default connect(mapStateToProps, {
 	fetchCurrentWeather: a_fetchCurrentWeather,
-	fetchForecast: a_fetchForecast
+	fetchForecast: a_fetchForecast,
+	clearNotification: a_clearNotification
 })(Weather)
