@@ -30,7 +30,7 @@ export declare interface DeriveCurrentWeather {
 
 const selectForecast = (state: { weather: WeatherState }): ForecastResponse => state.weather.forecast
 export const deriveForecast = createSelector(selectForecast, (forecast) => {
-	return (forecast.list || []).map(hourForecast => {
+	return (forecast.list || []).slice(0, 15).map(hourForecast => {
 		return {
 			displayHour: format(convertUnixToTimestamp(hourForecast.dt), 'hh:mm'),
 			weather: hourForecast.weather[0].main,
