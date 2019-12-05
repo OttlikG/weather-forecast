@@ -14,7 +14,7 @@ describe('weather', () => {
 				windSpeed: 30
 			},
 			forecast: [
-				{ displayHour: '11:00', weather: 'Cloud', temperature: 9, windDegree: 15 }
+				{ id: 1233, displayHour: '11:00', weather: 'Cloud', temperature: 9, windDegree: 15 }
 			],
 			fetchCurrentWeather: jest.fn(),
 			fetchForecast: jest.fn()

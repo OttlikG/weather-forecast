@@ -55,6 +55,7 @@ describe('weather selector', () => {
 			const result = deriveForecast(data)
 
 			expect(result).toEqual(expect.arrayContaining([{
+				id: 1557309600,
 				displayHour: '11:00',
 				weather: 10,
 				temperature: 6,

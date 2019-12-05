@@ -1,11 +1,18 @@
 import React from 'react'
 
+interface WeatherCardProps {
+	location?: string,
+	celsius?: number,
+	windSpeed?: number,
+	windDegree?: number
+}
+
 export default function WeatherCard({
 	location,
 	celsius,
 	windSpeed,
 	windDegree
-}) {
+}: WeatherCardProps) {
 	return (
 		<div className='weather-card today' data-testid='weather-card'>
 			<div className='city-wrapper'>

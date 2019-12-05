@@ -32,6 +32,7 @@ const selectForecast = (state: { weather: WeatherState }): ForecastResponse => s
 export const deriveForecast = createSelector(selectForecast, (forecast) => {
 	return (forecast.list || []).slice(0, 15).map(hourForecast => {
 		return {
+			id: hourForecast.dt,
 			displayHour: format(convertUnixToTimestamp(hourForecast.dt), 'hh:mm'),
 			weather: hourForecast.weather[0].main,
 			temperature: Math.round(convertToCelsius(hourForecast.main.temp)),
@@ -41,6 +42,7 @@ export const deriveForecast = createSelector(selectForecast, (forecast) => {
 })
 
 export declare interface DeriveForecast {
+	id: number,
 	displayHour: string,
 	weather: string,
 	temperature: number,

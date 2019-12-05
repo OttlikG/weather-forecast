@@ -52,7 +52,7 @@ export function Weather(props: WeatherProps) {
 							<div className='carousel-content'>
 								<div className='carousel-row'>
 									{forecast.map((forecastHour) => (
-										<div className="forecast-carousel-hour" key={forecastHour.displayHour}>
+										<div className="forecast-carousel-hour" key={forecastHour.id}>
 											<div className="forecast-hour">{forecastHour.displayHour}</div>
 											<div className="forecast-icon">
 												<i className="fas fa-sun" />
